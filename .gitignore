@@ -396,3 +396,29 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+# Archivos y carpetas que no se deben subir a Git
+
+# Node.js
+node_modules/
+
+# Angular
+dist/
+e2e/
+
+# Otros archivos
+package-lock.json
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Archivos de configuración
+.env
+.config.json
+
+# Otros
+.idea/
+.vscode/
+tmp/
+coverage/
