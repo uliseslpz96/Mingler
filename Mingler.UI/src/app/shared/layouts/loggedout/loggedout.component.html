@@ -1,0 +1,70 @@
+<nz-layout>
+    <nz-header class="custom-header">
+        <!-- <div style="width: 120px; height: 31px; background: rgba(255, 255, 255, 0.2); margin: 16px 24px 16px 0; float: left;">
+        </div> -->
+        <div>
+            <span class="name-webapp">mingler</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <ul nz-menu nzMode="horizontal" [nzTheme]="'dark'">
+                <li nz-submenu nzPlacement="bottomCenter" [nzTitle]="locationTitle" nzIcon="down">
+                    <ul>
+                        <ng-container *ngFor="let group of menuItems">
+                            <li *ngIf="group.children" nz-menu-group [nzTitle]="group.title">
+                                <ul>
+                                    <li *ngFor="let item of group.children" class="menu-location" nz-menu-item
+                                        [nzDisabled]="item.disabled" [nzSelected]="item.select"
+                                        (click)="onMenuItemClick(group, item)">
+                                        <nz-icon *ngIf="item.icon" [nzType]="item.icon" nzTheme="outline"></nz-icon>
+                                        {{ item.title }}
+                                    </li>
+                                </ul>
+                            </li>
+                            <li *ngIf="!group.children" class="menu-location" nz-menu-item [nzDisabled]="group.disabled"
+                                [nzSelected]="group.select" (click)="onMenuItemClick(group, group)">
+                                <nz-icon *ngIf="group.icon" [nzType]="group.icon" nzTheme="outline"></nz-icon>
+                                {{ group.title }}
+                            </li>
+                        </ng-container>
+                    </ul>
+                </li>
+            </ul>
+            <span style="margin-left: 20px; font-weight: 300;">{{ this.locationOption }}</span>
+        </div>
+        <div>
+            <ul nz-menu nzMode="horizontal" [nzTheme]="'dark'">
+                <li nz-menu-item>
+                    <nz-badge [nzCount]="notificationCount">
+                        <nz-icon nzType="notification" nzTheme="outline"></nz-icon>
+                    </nz-badge>
+                </li>
+                <li nz-menu-item>
+                    <nz-badge [nzCount]="messageCount">
+                        <nz-icon nzType="message" nzTheme="outline"></nz-icon>
+                    </nz-badge>
+                </li>
+                <li nz-menu-item>
+                    <nz-icon nzType="user" nzTheme="outline"></nz-icon>
+                </li>
+            </ul>
+        </div>
+    </nz-header>
+    <nz-content>
+        <div class="inner-content">
+            <router-outlet></router-outlet>
+        </div>
+    </nz-content>
+    <nz-footer>
+        <nz-space [nzSize]="size">
+            <button *nzSpaceItem nz-button nzType="text" nzSize="large">
+                <nz-icon nzType="home" nzTheme="outline"></nz-icon>
+            </button>
+            <button *nzSpaceItem nz-button nzType="primary" nzSize="large">
+                <nz-icon nzType="plus-circle" nzTheme="outline"></nz-icon>
+            </button>
+            <button *nzSpaceItem nz-button nzType="text" nzSize="large">
+                <nz-icon nzType="search"></nz-icon>
+            </button>
+        </nz-space>
+    </nz-footer>
+</nz-layout>

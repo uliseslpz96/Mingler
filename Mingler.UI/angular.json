@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Mingle.UI": {
+    "Mingler.UI": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/mingle.ui",
+            "outputPath": "dist/mingler.ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -23,11 +23,18 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/icons",
+                "output": "assets/"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.less"
             ],
             "scripts": []
           },
@@ -59,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Mingle.UI:build:production"
+              "buildTarget": "Mingler.UI:build:production"
             },
             "development": {
-              "buildTarget": "Mingle.UI:build:development"
+              "buildTarget": "Mingler.UI:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +92,8 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.less"
             ],
             "scripts": []
           }

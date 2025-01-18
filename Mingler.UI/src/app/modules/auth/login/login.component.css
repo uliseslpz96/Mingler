@@ -1,0 +1,28 @@
+.count {
+	padding-left: 8px;
+	cursor: auto;
+}
+.ant-comment-rtl .count {
+	padding-right: 8px;
+	padding-left: 0;
+}
+
+.actions-box {
+	padding: 1px 7px;
+	margin-right: 2px;
+	border: 2px solid rgba(255, 255, 255, 0.25);
+	border-radius: 7px;
+	background: #141414;
+}
+
+nz-comment {
+	border: 2px solid rgba(255, 255, 255, 0.1);
+	background-color: #192028;
+	border-radius: 7px;
+	box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.25);
+	padding: 0 16px;
+}
+
+.comments {
+  margin-left: 16px;
+}

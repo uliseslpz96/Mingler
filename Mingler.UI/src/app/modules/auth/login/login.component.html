@@ -1,0 +1,44 @@
+<nz-space nzDirection="vertical" nzSize="large">
+    <nz-card *ngFor="let comment of comments" nzSpaceItem>
+        <nz-comment nzAuthor="{{ comment.author }}" [nzDatetime]="comment.datetime">
+            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.avatar"></nz-avatar>
+            <nz-comment-content>
+                <span>{{ comment.content }}</span>
+            </nz-comment-content>
+            <nz-comment-action>
+                <div class="actions-box">
+                    <span nz-tooltip [nzTooltipTitle]="comment.likes + ' Me gusta'" nz-icon nzType="heart"
+                        [nzTheme]="comment.likes > 0 ? 'fill' : 'outline'" (click)="like(comment)"></span>
+                    <span class="count">{{ comment.likes }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box">
+                    <span nz-tooltip [nzTooltipTitle]="comment.mehs + ' Me mehs'" nz-icon nzType="meh"
+                        [nzTheme]="comment.mehs > 0 ? 'fill' : 'outline'" (click)="meh(comment)"></span>
+                    <span class="count">{{ comment.mehs }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box">
+                    <span nz-tooltip [nzTooltipTitle]="comment.dislikes + ' No me gusta'" nz-icon nzType="dislike"
+                        [nzTheme]="comment.dislikes > 0 ? 'fill' : 'outline'" (click)="dislike(comment)"></span>
+                    <span class="count">{{ comment.dislikes }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box shared">
+                    <span nz-tooltip [nzTooltipTitle]="comment.shareds + ' Compartidas'" nz-icon nzType="share-alt"
+                        [nzTheme]="comment.shareds > 0 ? 'fill' : 'outline'" (click)="dislike(comment)"></span>
+                    <span class="count">{{ comment.shareds }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box comments">
+                    <nz-icon nzType="comment" nzTheme="outline"></nz-icon>
+                    Comentar
+                </div>
+            </nz-comment-action>
+        </nz-comment>
+    </nz-card>
+</nz-space>

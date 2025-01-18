@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+.menu-location {
+    border-radius: 7px !important;
+}
+.menu-location:hover {
+    background-color: #2f2f3f !important;
+    border-radius: 7px;
+}
+
+.ant-comment-inner {
+    display: flex;
+    padding: 16px 0 0 0 !important;
+}
+    
