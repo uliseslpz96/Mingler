@@ -28,7 +28,7 @@
             </nz-comment-action>
             <nz-comment-action>
                 <div class="actions-box shared">
-                    <span nz-tooltip [nzTooltipTitle]="comment.shareds + ' Compartidas'" nz-icon nzType="share-alt"
+                    <span nz-tooltip [nzTooltipTitle]="comment.shareds + ' Compartidas'" nz-icon nzType="interaction"
                         [nzTheme]="comment.shareds > 0 ? 'fill' : 'outline'" (click)="dislike(comment)"></span>
                     <span class="count">{{ comment.shareds }}</span>
                 </div>
