@@ -12,3 +12,7 @@
     padding: 16px 0 0 0 !important;
 }
     
+.ant-comment-content-author-name {
+    font-weight: 500;
+    font-size: 13px !important;
+}

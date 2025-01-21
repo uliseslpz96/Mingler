@@ -1,6 +1,108 @@
+.comment-content-text {
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.image-comment-content {
+	text-align: center;
+	justify-content: space-between;
+	display: flex;
+	margin-top: 5px;
+}
+.image-comment-content .single-image {
+	max-height: 280px;
+	width: auto;
+	max-width: 280px;
+	height: auto;
+	margin: 0 auto;
+}
+.image-comment-content .two-images {
+	max-height: 280px;
+	width: auto;
+	max-width: calc(50% - 5px);
+	height: auto;
+}
+
+.image-grid {
+	display: flex;
+	max-height: 280px;
+}
+.large-image-container {
+	flex: 2;
+	margin-right: 10px;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	overflow: hidden;
+	max-height: 280px;
+}
+.large-image {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: cover;
+}
+.small-images {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	flex: 1;
+	max-height: 280px;
+}
+.small-image-container {
+	flex: 1;
+	display: inline-grid;
+	justify-content: space-between;
+	align-items: center;
+	overflow: hidden;
+	align-content: center;
+	max-height: calc(50% - 5px);
+}
+.small-image {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: cover;
+}
+@media (min-width: 550px) {
+	.actions-box .anticon {
+		font-size: large;
+		display: block;
+	}
+	.image-comment-content .single-image {
+		max-height: 320px;
+		max-width: 320px;
+	}
+	.image-comment-content .screen {
+		max-height: 280px;
+		max-width: calc(50% - 5px);
+	}
+	.image-comment-content {
+		justify-content: space-around;
+	}
+}
+@media (max-width: 450px) {
+	/* .actions-box {
+		padding: 7px 3px 7px 2px;
+		width: 64px;
+	} */
+	.actions-box .anticon {
+		font-size: larger;
+		display: block;
+	}
+}
+/* @media (max-width: 449px) {
+	.actions-box {
+		width: 59px;
+	}
+}
+@media (max-width: 419px) {
+	.actions-box {
+		width: 54px;
+	}
+} */
+
 .count {
-	padding-left: 8px;
-	cursor: auto;
+	padding-left: 2px;
 }
 .ant-comment-rtl .count {
 	padding-right: 8px;
@@ -8,11 +110,15 @@
 }
 
 .actions-box {
-	padding: 1px 7px;
-	margin-right: 2px;
+	padding: 7px 3px 7px 2px;
+	/* margin-right: 2px; */
 	border: 2px solid rgba(255, 255, 255, 0.25);
 	border-radius: 7px;
 	background: #141414;
+	cursor: pointer;
+	/* width: 55px; */
+	text-align: center;
+	/* font-size: larger; */
 }
 
 nz-comment {
@@ -23,11 +129,10 @@ nz-comment {
 	padding: 0 16px;
 }
 
-.comments {
-	margin-left: 16px;
+::ng-deep ul.ant-comment-actions {
+	display: grid;
+	grid-auto-flow: column;
 }
-
-.ant-comment-content-author-name {
-	font-size: 13px !important;
-	font-weight: 500 !important;
+.ng-star-inserted {
+	width: calc(100% - 2px);
 }

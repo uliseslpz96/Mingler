@@ -4,11 +4,12 @@
 	border-bottom: 1px solid rgba(255, 255, 255, 0.25); /* Ajusta el grosor del borde según tus necesidades */
     position: fixed;
     width: 100%;
-    z-index: 100000000;
+    z-index: 999;
 }
 .name-webapp {
     font-size: xx-large;
     font-weight: 800;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 nz-header ul {
@@ -28,8 +29,14 @@ nz-header nz-icon {
 	background: #242533;
 	padding: 24px;
 	min-height: 88vh;
+    min-width: 380px;
     max-width: 600px;
-    margin: 40px auto;
+    margin: 50px auto;
+}
+@media (max-width: 450px) {
+    .inner-content {
+      padding: 0;
+    }
 }
 
 nz-footer {
@@ -38,16 +45,30 @@ nz-footer {
     width: 100%;
     height: 55px;
     border-top: 1px solid rgba(255, 255, 255, 0.25);
-    justify-content: center;
+    justify-content: space-between;
     display: flex;
     font-size: xx-large;
 }
 
 nz-footer button {
-    width: 55px;
+    width: 60px;
     height: 55px;
     padding: 0;
 }
 nz-footer nz-icon {
     font-size: x-large;
+}
+nz-footer nz-avatar {
+    width: 45px;
+    height: 45px;
+    line-height: 50px;
+    font-size: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.footer-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
 }
