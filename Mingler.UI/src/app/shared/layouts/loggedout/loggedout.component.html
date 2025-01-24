@@ -1,57 +1,9 @@
 <nz-layout>
     <nz-header class="custom-header">
-        <!-- <div style="width: 120px; height: 31px; background: rgba(255, 255, 255, 0.2); margin: 16px 24px 16px 0; float: left;">
-        </div> -->
         <div>
             <a class="name-webapp" routerLink="/">
                 mingler
             </a>
-            <!-- <span class="name-webapp">
-                mingler
-            </span> -->
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-            <ul nz-menu nzMode="horizontal" [nzTheme]="'dark'">
-                <li nz-submenu nzPlacement="bottomCenter" [nzTitle]="locationTitle" nzIcon="down">
-                    <ul>
-                        <ng-container *ngFor="let group of menuItems">
-                            <li *ngIf="group.children" nz-menu-group [nzTitle]="group.title">
-                                <ul>
-                                    <li *ngFor="let item of group.children" class="menu-location" nz-menu-item
-                                        [nzDisabled]="item.disabled" [nzSelected]="item.select"
-                                        (click)="onMenuItemClick(group, item)">
-                                        <nz-icon *ngIf="item.icon" [nzType]="item.icon" nzTheme="outline"></nz-icon>
-                                        {{ item.title }}
-                                    </li>
-                                </ul>
-                            </li>
-                            <li *ngIf="!group.children" class="menu-location" nz-menu-item [nzDisabled]="group.disabled"
-                                [nzSelected]="group.select" (click)="onMenuItemClick(group, group)">
-                                <nz-icon *ngIf="group.icon" [nzType]="group.icon" nzTheme="outline"></nz-icon>
-                                {{ group.title }}
-                            </li>
-                        </ng-container>
-                    </ul>
-                </li>
-            </ul>
-            <span style="margin-left: 20px; font-weight: 300;">{{ this.locationOption }}</span>
-        </div>
-        <div>
-            <ul nz-menu nzMode="horizontal" [nzTheme]="'dark'">
-                <li nz-menu-item>
-                    <nz-badge [nzCount]="notificationCount">
-                        <nz-icon nzType="notification" nzTheme="outline"></nz-icon>
-                    </nz-badge>
-                </li>
-                <!-- <li nz-menu-item>
-                    <nz-badge [nzCount]="messageCount">
-                        <nz-icon nzType="message" nzTheme="outline"></nz-icon>
-                    </nz-badge>
-                </li> -->
-                <!-- <li nz-menu-item>
-                    <nz-icon nzType="user" nzTheme="outline"></nz-icon>
-                </li> -->
-            </ul>
         </div>
     </nz-header>
     <nz-content>
@@ -59,24 +11,4 @@
             <router-outlet></router-outlet>
         </div>
     </nz-content>
-    <nz-footer>
-        <div class="footer-avatar">
-
-        </div>
-        <nz-space [nzSize]="size">
-            <button *nzSpaceItem nz-button nzType="text" nzSize="large">
-                <nz-icon nzType="home" nzTheme="outline"></nz-icon>
-            </button>
-            <button *nzSpaceItem nz-button nzType="primary" nzSize="large">
-                <nz-icon nzType="plus-circle" nzTheme="outline"></nz-icon>
-            </button>
-            <button *nzSpaceItem nz-button nzType="text" nzSize="large">
-                <nz-icon nzType="search"></nz-icon>
-            </button>
-        </nz-space>
-        <div class="footer-avatar">
-            <!-- <nz-avatar nzIcon="user" nzSrc="https://scontent.fgdl2-2.fna.fbcdn.net/v/t39.30808-6/450969336_7720661754654658_1115951407307896699_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeHsRkEuuCrSAAyAdmZ8LVy4M1TuEbp5iGszVO4RunmIa4CMyF2tmEpqN0m8G6VFtL3Lv7IdJOv5k-rQOqFmYrpS&_nc_ohc=2LJnO36_XxoQ7kNvgEr6QLB&_nc_zt=23&_nc_ht=scontent.fgdl2-2.fna&_nc_gid=A-nwaUAfH_P_bWTQfQEv1GH&oh=00_AYDboXU3ZOjcSkBFGBR0J1revkmaw0ayNaCeA1wqJnvl4Q&oe=67920534"></nz-avatar> -->
-            <nz-avatar nzIcon="user"></nz-avatar>
-        </div>
-    </nz-footer>
 </nz-layout>

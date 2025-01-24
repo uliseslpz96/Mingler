@@ -1,10 +1,8 @@
 .custom-header {
     display: flex;
-    justify-content: space-between;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.25); /* Ajusta el grosor del borde según tus necesidades */
     position: fixed;
     width: 100%;
-    z-index: 999;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.25); /* Ajusta el grosor del borde según tus necesidades */
 }
 .name-webapp {
     font-size: xx-large;
@@ -12,63 +10,16 @@
     color: rgba(255, 255, 255, 0.85);
 }
 
-nz-header ul {
-    height: 63px;
-}
-
-nz-header li {
-    width: 64px !important;
-    text-align: center;
-}
-
-nz-header nz-icon {
-    font-size: 20px;
+nz-content {
+    height: 100vh !important;
+    vertical-align: middle;
+    display: flex;
 }
 
 .inner-content {
 	background: #242533;
-	padding: 24px;
-	min-height: 88vh;
-    min-width: 380px;
-    max-width: 600px;
-    margin: 50px auto;
-}
-@media (max-width: 450px) {
-    .inner-content {
-      padding: 0;
-    }
-}
-
-nz-footer {
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    height: 55px;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    justify-content: space-between;
-    display: flex;
-    font-size: xx-large;
-}
-
-nz-footer button {
-    width: 60px;
-    height: 55px;
-    padding: 0;
-}
-nz-footer nz-icon {
-    font-size: x-large;
-}
-nz-footer nz-avatar {
-    width: 45px;
-    height: 45px;
-    line-height: 50px;
-    font-size: 25px;
+    margin: auto;
+    padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.footer-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 55px;
+    border-radius: 12px;
 }

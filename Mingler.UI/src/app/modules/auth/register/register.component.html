@@ -1,1 +1,63 @@
-<p>register works!</p>
+<h2 style="text-align: center; margin-bottom: 7px;">Crear una cuenta</h2>
+<form nz-form [nzAutoTips]="autoTips" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Usuario</nz-form-label>
+        <nz-form-control [nzSpan]="15" nzValidatingTip="Validando...">
+            <nz-input-group [nzSuffix]="suffixTemplateInfoUser">
+                <input nz-input formControlName="username" placeholder="Usuario" />
+            </nz-input-group>
+            <ng-template #suffixTemplateInfoUser>
+                <nz-icon nz-tooltip nzTooltipTitle="Ejemplo: nombre.usuario_2006" nzType="info-circle" />
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Celular</nz-form-label>
+        <nz-form-control [nzSpan]="15">
+            <nz-input-group [nzSuffix]="suffixTemplateInfoMobile">
+                <input nz-input formControlName="mobile" placeholder="Número telefónico" />
+            </nz-input-group>
+            <ng-template #suffixTemplateInfoMobile>
+                <nz-icon nz-tooltip nzTooltipTitle="Ejemplo: +52 555 555 55 55" nzType="info-circle" />
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Correo</nz-form-label>
+        <nz-form-control [nzSpan]="15">
+            <nz-input-group [nzSuffix]="suffixTemplateInfoEmail">
+                <input nz-input formControlName="email" placeholder="Correo electrónico" type="email" />
+            </nz-input-group>
+            <ng-template #suffixTemplateInfoEmail>
+                <nz-icon nz-tooltip nzTooltipTitle="Ejemplo: nombre.usuario_2006@gmail.com" nzType="info-circle" />
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Contraseña</nz-form-label>
+        <nz-form-control [nzSpan]="15" nzDisableAutoTips nzErrorTip="Por favor tu contraseña!">
+            <input nz-input formControlName="password" placeholder="Ingresa una contraseña" type="password" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Confirma</nz-form-label>
+        <nz-form-control [nzSpan]="15" nzDisableAutoTips [nzErrorTip]="passwordErrorTpl">
+            <input nz-input formControlName="confirm" placeholder="Confirma tu contraseña" type="password" />
+            <ng-template #passwordErrorTpl let-control>
+                @if (control.errors?.['required']) {
+                Confirma tu contraseña!
+                }
+                @if (control.errors?.['confirm']) {
+                No coinciden!
+                }
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item>
+        <nz-form-control >
+            
+        </nz-form-control>
+    </nz-form-item> -->
+    <button nz-button nzType="primary" nzBlock style="margin-bottom: 7px;">Crear mi cuenta</button>
+</form>
+<button nz-button nzBlock routerLink="/" style="margin-bottom: 7px;">Volver</button>

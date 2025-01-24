@@ -1,1 +1,68 @@
-<p>local works!</p>
+<!-- <nz-space nzDirection="vertical" nzSize="large"> -->
+    <nz-card *ngFor="let comment of comments">
+        <nz-comment nzAuthor="{{ comment.author }}" [nzDatetime]="comment.datetime">
+            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.avatar"></nz-avatar>
+            <nz-comment-content class="comment-content-text">
+                <span>{{ comment.contentText }}</span>
+            </nz-comment-content>
+            <nz-comment-content class="image-comment-content" *ngIf="comment.contentImage">
+                <img class="single-image" *ngIf="comment.contentImage.length == 1" nz-image width="280"
+                    [nzSrc]="comment.contentImage[0]" />
+                <ng-container *ngIf="comment.contentImage.length === 2">
+                    <img class="two-images screen" *ngFor="let image of comment.contentImage" nz-image width="150"
+                        [nzSrc]="image" />
+                </ng-container>
+                <ng-container *ngIf="comment.contentImage.length === 3">
+                    <div class="image-grid">
+                        <div class="large-image-container">
+                            <img class="large-image" nz-image [nzSrc]="comment.contentImage[0]" />
+                        </div>
+                        <div class="small-images">
+                            <div class="small-image-container">
+                                <img class="small-image" nz-image [nzSrc]="comment.contentImage[1]" />
+                            </div>
+                            <div class="small-image-container">
+                                <img class="small-image" nz-image [nzSrc]="comment.contentImage[2]" />
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </nz-comment-content>
+            <nz-comment-action>
+                <div class="actions-box" nz-tooltip nzTooltipPlacement="" [nzTooltipTitle]="' ' + (comment.likes | formatNumberK) + ' Me gusta'"
+                    (click)="like(comment)" [nzTooltipArrowPointAtCenter]="true">
+                    <span nz-icon nzType="heart" [nzTheme]="comment.likes > 0 ? 'fill' : 'outline'"></span>
+                    <span class="count">{{ comment.likes | formatNumberKDecimal }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box" nz-tooltip [nzTooltipTitle]="' ' + (comment.mehs | formatNumberK) + ' Me mehs'"
+                    (click)="meh(comment)" [nzTooltipArrowPointAtCenter]="true">
+                    <span nz-icon nzType="meh" [nzTheme]="comment.mehs > 0 ? 'fill' : 'outline'"></span>
+                    <span class="count">{{ comment.mehs | formatNumberKDecimal }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box" nz-tooltip [nzTooltipTitle]="' ' + (comment.dislikes | formatNumberK) + ' No me gusta'"
+                (click)="dislike(comment)" [nzTooltipArrowPointAtCenter]="true">
+                    <span nz-icon nzType="dislike" [nzTheme]="comment.dislikes > 0 ? 'fill' : 'outline'"></span>
+                    <span class="count">{{ comment.dislikes | formatNumberKDecimal }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box" nz-tooltip [nzTooltipTitle]="' ' + (comment.shareds | formatNumberK) + ' Compartidas'"
+                (click)="shared(comment)" [nzTooltipArrowPointAtCenter]="true">
+                    <span nz-icon nzType="interaction" [nzTheme]="comment.shareds > 0 ? 'fill' : 'outline'"></span>
+                    <span class="count">{{ comment.shareds | formatNumberKDecimal }}</span>
+                </div>
+            </nz-comment-action>
+            <nz-comment-action>
+                <div class="actions-box" nz-tooltip [nzTooltipTitle]="' ' + (comment.comments | formatNumberK) + ' Comentarios'"
+                    (click)="this.comment(comment)" [nzTooltipArrowPointAtCenter]="true">
+                    <span nz-icon nzType="comment" nzTheme="outline"></span>
+                    <span class="count">{{ comment.comments | formatNumberKDecimal }}</span>
+                </div>
+            </nz-comment-action>
+        </nz-comment>
+    </nz-card>
+    <!-- </nz-space> -->

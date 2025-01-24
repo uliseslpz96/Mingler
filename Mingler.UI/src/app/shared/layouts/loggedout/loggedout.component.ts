@@ -39,51 +39,5 @@ interface MenuItem {
 	styleUrls: [ './loggedout.component.css' ]
 })
 export class LoggedoutComponentLayout {
-	menuItems: MenuItem[] = [
-		{
-			title: 'Local',
-			children: [
-				{ title: 'Cerca de mi', icon: 'environment', disabled: false, select: true },
-				{ title: 'Personalizar', icon: 'filter', disabled: false }
-			]
-		},
-		{
-			title: 'Visita',
-			children: [
-				{ title: 'Región', icon: 'aim', disabled: false },
-				{ title: 'Pais', icon: 'global', disabled: true }
-			]
-		},
-		{ title: 'Seguidores', icon: 'team', disabled: false }
-	];
-
-	locationTitle: string = '';
-	locationOption: string = '';
-	size: number = 20;
-	notificationCount: number = 5;
-	messageCount: number = 3;
-
-	constructor() {
-		this.menuItems.forEach((group) => {
-			if (group.children) {
-				group.children.forEach((item) => {
-					if (item.select) {
-						this.locationTitle = group.title;
-						this.locationOption = '|  ' + item.title;
-					}
-				});
-			}
-		});
-	}
-
-	onMenuItemClick(menuGroup: MenuItem, menuItem: MenuItem): void {
-
-		if(menuItem.disabled)
-			return;
-
-		this.locationTitle = menuGroup.title;
-		this.locationOption = '|  ' + menuItem.title;
-
-		if (menuGroup.title == menuItem.title) this.locationOption = '';
-	}
+	
 }
