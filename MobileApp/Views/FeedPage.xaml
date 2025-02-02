@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Views.FeedPage"
+             Title="FeedPage">
+    
+    <CollectionView ItemsSource="{Binding Posts}"
+                    BackgroundColor="#242533"
+                    VerticalScrollBarVisibility="Always">
+        
+        <!-- Asegurar que los elementos se muestren en UNA SOLA COLUMNA -->
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame Padding="10"
+                       CornerRadius="10"
+                       BackgroundColor="#2a2a2a"
+                       HasShadow="False"
+                       BorderColor="#303030"
+                       Margin="10">
+                    <VerticalStackLayout Spacing="8">
+                        <!-- Usuario e imagen de perfil en la parte superior -->
+                        <HorizontalStackLayout Spacing="10"
+                                               VerticalOptions="Center">
+                            <Image Source="{Binding UserProfileImage}"
+                                   WidthRequest="40"
+                                   HeightRequest="40"
+                                   Aspect="AspectFill"
+                                   Clip="M0,20 A20,20 0 1,1 40,20 A20,20 0 1,1 0,20 Z" />
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="{Binding UserName}"
+                                       FontFamily="OpenSansExtraBold"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       VerticalOptions="Start" />
+                                <Label Grid.Row="1"
+                                       Text="hace un momento"
+                                       FontSize="12"
+                                       TextColor="#707070"
+                                       VerticalOptions="Start" />
+                            </Grid>
+                        </HorizontalStackLayout>
+                        <!-- Descripción con máximo 3 líneas -->
+                        <Label Text="{Binding Description}"
+                               FontSize="16"
+                               TextColor="White"
+                               Padding="5,0"
+                               LineBreakMode="WordWrap"
+                               MaxLines="3" />
+                        <!-- Imagen del post -->
+                        <Image Source="{Binding ImageUrl}"
+                               Aspect="AspectFill"
+                               HeightRequest="250"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                        
+                        <!-- Botones de reacciones -->
+                        <HorizontalStackLayout Spacing="25"
+                                               HorizontalOptions="Center"
+                                               Margin="0,5,0,0"
+                                               >
+                            <!-- Botón Like -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         VerticalOptions="Center">
+                                <ImageButton WidthRequest="20"
+                                             HeightRequest="20"
+                                             BackgroundColor="Transparent"
+                                             VerticalOptions="Center">
+                                    <ImageButton.Source>
+                                        <FontImageSource Glyph="&#xf004;"
+                                                         FontFamily="FontAwesomeSolid"
+                                                         Size="20"
+                                                         Color="White" />
+                                    </ImageButton.Source>
+                                </ImageButton>
+                                <Label Text="100"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            <!-- Botón Meh -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         VerticalOptions="Center">
+                                <ImageButton WidthRequest="20"
+                                             HeightRequest="20"
+                                             BackgroundColor="Transparent"
+                                             VerticalOptions="Center">
+                                    <ImageButton.Source>
+                                        <FontImageSource Glyph="&#xf11a;"
+                                                         FontFamily="FontAwesomeSolid"
+                                                         Size="20"
+                                                         Color="White" />
+                                    </ImageButton.Source>
+                                </ImageButton>
+                                <Label Text="89"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            <!-- Botón Dislike -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         VerticalOptions="Center">
+                                <ImageButton WidthRequest="20"
+                                             HeightRequest="20"
+                                             BackgroundColor="Transparent"
+                                             VerticalOptions="Center">
+                                    <ImageButton.Source>
+                                        <FontImageSource Glyph="&#xf7a9;"
+                                                         FontFamily="FontAwesomeSolid"
+                                                         Size="20"
+                                                         Color="White" />
+                                    </ImageButton.Source>
+                                </ImageButton>
+                                <Label Text="54"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            <!-- Botón Share -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         VerticalOptions="Center">
+                                <ImageButton WidthRequest="20"
+                                             HeightRequest="20"
+                                             BackgroundColor="Transparent"
+                                             VerticalOptions="Center">
+                                    <ImageButton.Source>
+                                        <FontImageSource Glyph="&#xf064;"
+                                                         FontFamily="FontAwesomeSolid"
+                                                         Size="20"
+                                                         Color="White" />
+                                    </ImageButton.Source>
+                                </ImageButton>
+                                <Label Text="78"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            <!-- Botón Comments -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         VerticalOptions="Center">
+                                <ImageButton WidthRequest="20"
+                                             HeightRequest="20"
+                                             BackgroundColor="Transparent"
+                                             VerticalOptions="Center">
+                                    <ImageButton.Source>
+                                        <FontImageSource Glyph="&#xf4ad;"
+                                                         FontFamily="FontAwesomeSolid"
+                                                         Size="20"
+                                                         Color="White" />
+                                    </ImageButton.Source>
+                                </ImageButton>
+                                <Label Text="31"
+                                       FontSize="14"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

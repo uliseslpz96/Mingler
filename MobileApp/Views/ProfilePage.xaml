@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Views.ProfilePage"
+             Title="Perfil">
+    <VerticalStackLayout Padding="20"
+                         Spacing="10"
+                         Background="#242533">
+        <!-- Contenedor principal con tres columnas -->
+        <Grid ColumnDefinitions="*,Auto">
+            <!-- Sección de usuario (Imagen + Nombre + @Usuario) -->
+            <HorizontalStackLayout Spacing="15"
+                                   VerticalOptions="Center"
+                                   Grid.Column="0">
+                <!-- Foto de perfil -->
+                <Image Source="{Binding UserProfileImage}"
+                       WidthRequest="80"
+                       HeightRequest="80"
+                       Aspect="AspectFill"
+                       Clip="M0,40 A40,40 0 1,1 80,40 A40,40 0 1,1 0,40 Z" />
+                <!-- Información del usuario -->
+                <VerticalStackLayout>
+                    <Label Text="{Binding UserName}"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="White" />
+                    <Label Text="{Binding UserHandle}"
+                           FontSize="16"
+                           TextColor="#AAAAAA" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+            <!-- Botón de configuración en la esquina superior derecha -->
+            <ImageButton Grid.Column="1"
+                         WidthRequest="40"
+                         HeightRequest="35"
+                         BackgroundColor="#393A48"
+                         VerticalOptions="Start"
+                         Padding="7"
+                         HorizontalOptions="End"
+                         CornerRadius="7"
+                         Clicked="OnSettingsClicked">
+                <ImageButton.Source>
+                    <FontImageSource Glyph="&#xf4ff;"
+                                     FontFamily="FontAwesomeSolid"
+                                     Size="30"
+                                     Color="#DEDEDE" />
+                </ImageButton.Source>
+            </ImageButton>
+        </Grid>
+        <!-- Contadores -->
+        <VerticalStackLayout Spacing="0">
+            <!-- Grid con tres columnas correctamente alineado -->
+            <Grid ColumnDefinitions="1*,1*,1*"
+                  HorizontalOptions="FillAndExpand"
+                  Margin="0,10,0,0">
+                <!-- Seguidos -->
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="478"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <HorizontalStackLayout Spacing="5"
+                                           HorizontalOptions="Center">
+                        <Label Text="&#xf0c1;"
+                               FontFamily="FontAwesomeSolid"
+                               FontSize="12"
+                               VerticalOptions="Center"
+                               TextColor="Gray"/>
+                        <Label Text="Seguidos"
+                               FontSize="14"
+                               TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <!-- Seguidores -->
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Text="951"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <HorizontalStackLayout Spacing="5"
+                                           HorizontalOptions="Center">
+                        <Label Text="&#xf234;"
+                               FontFamily="FontAwesomeSolid"
+                               FontSize="12"
+                               VerticalOptions="Center"
+                               TextColor="Gray"/>
+                        <Label Text="Seguidores"
+                               FontSize="14"
+                               TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <!-- Me gusta -->
+                <VerticalStackLayout Grid.Column="2">
+                    <Label Text="431"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <HorizontalStackLayout Spacing="5"
+                                           HorizontalOptions="Center">
+                        <Label Text="&#xf004;"
+                               FontFamily="FontAwesomeSolid"
+                               FontSize="12"
+                               VerticalOptions="Center"
+                               TextColor="Gray" />
+                        <Label Text="Seguidores"
+                               FontSize="14"
+                               TextColor="Gray" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+        
+        <!-- Descripción del usuario -->
+        <Label Text="{Binding UserDescription}"
+               FontSize="14"
+               TextColor="White"
+               LineBreakMode="WordWrap"
+               Padding="0, 10, 0, 10"/>
+        
+        <!-- Línea divisoria -->
+        <BoxView HeightRequest="1"
+                 BackgroundColor="#303030"
+                 HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>
