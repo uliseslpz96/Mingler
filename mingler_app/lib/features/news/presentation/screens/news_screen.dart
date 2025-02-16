@@ -13,7 +13,7 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   String _selectedButton = 'Cerca de mí';
   String _selectedLocation = 'Cerca de mí';
-  IconData _selectedLocationIcon = Icons.location_on;
+  IconData _selectedLocationIcon = Icons.location_on_rounded;
   bool _isLocationButtonActive = true;
 
   final Map<String, IconData> _locationIcons = {
@@ -54,12 +54,12 @@ class _NewsScreenState extends State<NewsScreen> {
           ], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
-          likes: Random().nextInt(250), // Likes aleatorios entre 0 y 199
+          likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
           liked: Random().nextBool(), // Like aleatorio (true o false)
           comments:
-              Random().nextInt(180), // Comentarios aleatorios entre 0 y 49
+              Random().nextInt(2000000), // Comentarios aleatorios entre 0 y 49
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
-          shares: Random().nextInt(125), // Shares aleatorios entre 0 y 29
+          shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
         );
       }),
@@ -75,12 +75,12 @@ class _NewsScreenState extends State<NewsScreen> {
           ], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
-          likes: Random().nextInt(500), // Likes aleatorios entre 0 y 199
+          likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
           liked: Random().nextBool(), // Like aleatorio (true o false)
           comments:
-              Random().nextInt(300), // Comentarios aleatorios entre 0 y 49
+              Random().nextInt(2000000), // Comentarios aleatorios entre 0 y 49
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
-          shares: Random().nextInt(400), // Shares aleatorios entre 0 y 29
+          shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
         );
       }),
@@ -95,12 +95,12 @@ class _NewsScreenState extends State<NewsScreen> {
           ], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
-          likes: Random().nextInt(700), // Likes aleatorios entre 0 y 199
+          likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
           liked: Random().nextBool(), // Like aleatorio (true o false)
           comments:
-              Random().nextInt(350), // Comentarios aleatorios entre 0 y 49
+              Random().nextInt(2000000), // Comentarios aleatorios entre 0 y 49
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
-          shares: Random().nextInt(750), // Shares aleatorios entre 0 y 29
+          shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
         );
       }),
@@ -116,12 +116,12 @@ class _NewsScreenState extends State<NewsScreen> {
           ], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
-          likes: Random().nextInt(1000), // Likes aleatorios entre 0 y 199
+          likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
           liked: Random().nextBool(), // Like aleatorio (true o false)
           comments:
-              Random().nextInt(750), // Comentarios aleatorios entre 0 y 49
+              Random().nextInt(2000000), // Comentarios aleatorios entre 0 y 49
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
-          shares: Random().nextInt(800), // Shares aleatorios entre 0 y 29
+          shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
         );
       })

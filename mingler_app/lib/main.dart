@@ -36,9 +36,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0; // Índice de la pantalla seleccionada
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController();
 
-  // Lista de pantallas
   final List<Widget> _screens = [
     NewsScreen(),
     SearchScreen(),
@@ -47,10 +47,14 @@ class _MainScreenState extends State<MainScreen> {
     ProfileScreen(),
   ];
 
-  // Función para cambiar de pantalla
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.animateToPage(
+        index,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut, // Suaviza la animación
+      );
     });
   }
 
@@ -58,31 +62,27 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mingler'), // Título fijo de la aplicación
+        title: Text('Mingler'),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.inbox,
-              color: Colors.white70,
-            ), // Segundo botón (ícono de configuración)
+            icon: Icon(Icons.inbox, color: Colors.white70),
             onPressed: () {
               print('Botón de configuración presionado');
             },
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
+      body: PageView(
+        controller: _pageController,
         children: _screens,
+        physics: NeverScrollableScrollPhysics(), // Desactiva el swipe manual
       ),
       bottomNavigationBar: Stack(
         alignment: Alignment.center,
         children: [
           Container(
             height: 50,
-            decoration: BoxDecoration(
-              color: Colors.grey[850],
-            ),
+            decoration: BoxDecoration(color: Colors.grey[850]),
             child: BottomNavigationBar(
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
@@ -96,36 +96,19 @@ class _MainScreenState extends State<MainScreen> {
               unselectedItemColor: Colors.grey[400],
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.dynamic_feed_rounded),
-                  label: '',
-                ),
+                    icon: Icon(Icons.dynamic_feed_rounded), label: ''),
+                BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
+                BottomNavigationBarItem(icon: SizedBox.shrink(), label: ''),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: SizedBox.shrink(),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: '',
-                ),
+                    icon: Icon(Icons.notifications), label: ''),
+                BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
               ],
             ),
           ),
           Positioned(
             bottom: 5,
             child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 2;
-                });
-              },
+              onTap: () => _onItemTapped(2),
               child: Container(
                 width: 45,
                 height: 40,
@@ -134,11 +117,7 @@ class _MainScreenState extends State<MainScreen> {
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 27,
-                ),
+                child: Icon(Icons.add, color: Colors.white, size: 27),
               ),
             ),
           ),

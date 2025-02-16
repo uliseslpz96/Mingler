@@ -17,7 +17,7 @@ class AddScreen extends StatelessWidget {
         backgroundColor: Colors.grey[900], // Color de fondo del AppBar
         iconTheme: IconThemeData(
             color: Colors.amber), // Color de los íconos del AppBar
-        toolbarHeight: 45,
+        toolbarHeight: 40,
       ),
       body: Center(
         child: Text('Pantalla de Agregar'),

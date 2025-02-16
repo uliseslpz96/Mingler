@@ -38,7 +38,7 @@ class _PostWidgetState extends State<PostWidget> {
   late int _likes;
   late int _shares;
   late bool _hasLiked;
-  // late bool _hasCommented;
+  late bool _hasCommented;
   late bool _hasShared;
 
   @override
@@ -47,7 +47,8 @@ class _PostWidgetState extends State<PostWidget> {
     _likes = widget.initialLikes;
     _shares = widget.initialShares;
     _hasLiked = widget.initialHasLiked;
-    // _hasCommented = widget.initialHasCommented;
+    _hasCommented = widget.initialHasCommented;
+    // _hasCommented = false;
     _hasShared = widget.initialHasShared;
   }
 
@@ -66,13 +67,31 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   void _handleComment() {
+    setState(() {
+      _hasCommented = !_hasCommented;
+    });
     print("Haz seleccionado comentarios");
+  }
+
+  String formatNumber(int value) {
+    if (value >= 1000000) {
+      // Si es un millón o más, divide entre 1M y formatea con "M"
+      double parsed = value / 1000000;
+      return '${parsed.toStringAsFixed(1)} M';
+    } else if (value >= 1000) {
+      // Si es mayor o igual a 1000, divide entre 1K y formatea con "K"
+      double parsed = value / 1000;
+      return '${parsed.toStringAsFixed(1)} K';
+    } else {
+      // Si es menor a 1000, simplemente convierte a string
+      return value.toString();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -160,25 +179,25 @@ class _PostWidgetState extends State<PostWidget> {
             children: [
               _buildActionButton(
                 _hasLiked ? Icons.favorite : Icons.favorite_border,
-                _likes.toString(),
+                formatNumber(_likes),
                 _hasLiked,
                 _handleLike,
                 activeColor: Colors.red,
               ),
-              SizedBox(width: 15),
+              SizedBox(width: 10),
               _buildActionButton(
                 widget.initialHasCommented
                     ? Icons.question_answer_rounded
                     : Icons.question_answer_outlined,
-                widget.initialComments.toString(),
-                widget.initialHasCommented,
+                formatNumber(widget.initialComments),
+                _hasCommented, // widget.initialHasCommented,
                 _handleComment,
                 activeColor: Colors.blue,
               ),
-              SizedBox(width: 15),
+              SizedBox(width: 10),
               _buildActionButton(
                 _hasShared ? Icons.share : Icons.share_outlined,
-                _shares.toString(),
+                formatNumber(_shares),
                 _hasShared,
                 _handleShare,
                 activeColor: Colors.green,
@@ -196,23 +215,51 @@ class _PostWidgetState extends State<PostWidget> {
       {Color activeColor = Colors.blue}) {
     return GestureDetector(
       onTap: onPressed,
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 22,
-            color: isActive ? activeColor : Colors.grey[600],
-          ),
-          SizedBox(width: 5),
-          Text(
-            count,
-            style: TextStyle(
-              fontSize: 14,
-              color: isActive ? activeColor : Colors.grey[700],
-              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300), // Duración de la animación
+        curve: Curves.easeInOut, // Suaviza la animación
+        padding: EdgeInsets.symmetric(
+            horizontal: 10, vertical: 6), // Espaciado interno
+        decoration: isActive
+            ? BoxDecoration(
+                color: Colors.grey[300], // Fondo gris claro cuando está activo
+                borderRadius: BorderRadius.circular(20), // Forma ovalada
+              )
+            : BoxDecoration(
+                color: Colors.transparent, // Sin fondo cuando no está activo
+                borderRadius: BorderRadius.circular(20),
+              ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min, // Ajusta el tamaño al contenido
+          children: [
+            AnimatedSwitcher(
+              duration:
+                  Duration(milliseconds: 300), // Duración del cambio de icono
+              transitionBuilder: (child, animation) {
+                return ScaleTransition(scale: animation, child: child);
+              },
+              child: Icon(
+                icon,
+                key: ValueKey(
+                    isActive), // Asegura que la animación ocurra solo en cambios
+                size: 22,
+                color: isActive ? activeColor : Colors.grey[600],
+              ),
             ),
-          ),
-        ],
+            SizedBox(width: 5),
+            AnimatedDefaultTextStyle(
+              duration: Duration(
+                  milliseconds: 300), // Duración de la animación del texto
+              curve: Curves.easeInOut,
+              style: TextStyle(
+                fontSize: 14,
+                color: isActive ? activeColor : Colors.grey[700],
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              ),
+              child: Text(count),
+            ),
+          ],
+        ),
       ),
     );
   }
