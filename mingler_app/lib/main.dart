@@ -5,6 +5,8 @@ import 'features/add/presentation/screens/add_screen.dart';
 import 'features/notifications/presentation/screens/notifications_screen.dart';
 import 'features/profile/presentation/screens/profile_screen.dart';
 
+import 'package:flutter_svg/flutter_svg.dart'; // Importar flutter_svg
+
 void main() {
   runApp(MyApp());
 }
@@ -115,7 +117,26 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: _onWillPop, // Maneja el gesto de "volver"
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Mingler'),
+          title: Row(
+            mainAxisSize: MainAxisSize.min, // Ajusta el tamaño al contenido
+            children: [
+              SvgPicture.asset(
+                "assets/images/cat.svg", // Ruta del SVG
+                width: 45, // Ajusta el tamaño del icono
+                height: 45,
+                colorFilter: ColorFilter.mode(
+                    Colors.white, BlendMode.srcIn), // Aplica el color
+              ),
+              Text(
+                "Mingler",
+                style: TextStyle(
+                    fontFamily:
+                        "OpenSansExtraBold", // Debe coincidir con el nombre en pubspec.yaml
+                    fontSize: 25,
+                    color: Colors.white),
+              ),
+            ],
+          ),
           actions: [
             IconButton(
               icon: Icon(Icons.inbox, color: Colors.white70),
