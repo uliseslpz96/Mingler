@@ -91,7 +91,7 @@ class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -131,7 +131,10 @@ class _PostWidgetState extends State<PostWidget> {
                 children: [
                   Text(
                     widget.username,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.black87),
                   ),
                   Text(
                     widget.timeAgo,
@@ -144,37 +147,48 @@ class _PostWidgetState extends State<PostWidget> {
 
           SizedBox(height: 8),
 
-          /// 🔹 Contenido del post
-          Text(
-            widget.content,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.black, fontSize: 14),
+          /// 🔹 Contenido del post (Con evento de doble tap para dar like)
+          GestureDetector(
+            onDoubleTap: _handleLike, // Doble tap en el texto para dar like
+            child: Text(
+              widget.content,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize:
+                      (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
+                          ? 14
+                          : 20),
+            ),
           ),
 
           SizedBox(height: 8),
 
-          /// 🔹 Carrusel de imágenes (si tiene)
+          /// 🔹 Carrusel de imágenes (si tiene) con doble tap para dar like
           if (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: PageView(
-                  children: widget.imageUrls!
-                      .map((imageUrl) => Image.network(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ))
-                      .toList(),
+            GestureDetector(
+              onDoubleTap: _handleLike, // Doble tap en la imagen para dar like
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: PageView(
+                    children: widget.imageUrls!
+                        .map((imageUrl) => Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ))
+                        .toList(),
+                  ),
                 ),
               ),
             ),
 
           SizedBox(height: 8),
 
-          /// 🔹 Botones de interacción alineados a la izquierda
+          /// 🔹 Botones de interacción
           Row(
             children: [
               _buildActionButton(
@@ -190,7 +204,7 @@ class _PostWidgetState extends State<PostWidget> {
                     ? Icons.question_answer_rounded
                     : Icons.question_answer_outlined,
                 formatNumber(widget.initialComments),
-                _hasCommented, // widget.initialHasCommented,
+                _hasCommented,
                 _handleComment,
                 activeColor: Colors.blue,
               ),
@@ -222,12 +236,20 @@ class _PostWidgetState extends State<PostWidget> {
             horizontal: 10, vertical: 6), // Espaciado interno
         decoration: isActive
             ? BoxDecoration(
-                color: Colors.grey[300], // Fondo gris claro cuando está activo
+                color: Colors.grey[350], // Fondo gris claro cuando está activo
                 borderRadius: BorderRadius.circular(20), // Forma ovalada
+                border: Border.all(
+                  color: Colors.grey[350]!, // Borde de color gris muy claro
+                  width: 1, // Grosor del borde
+                ),
               )
             : BoxDecoration(
-                color: Colors.transparent, // Sin fondo cuando no está activo
+                color: Colors.grey[50], // Sin fondo cuando no está activo
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.grey[350]!, // Borde de color gris muy claro
+                  width: 1, // Grosor del borde
+                ),
               ),
         child: Row(
           mainAxisSize: MainAxisSize.min, // Ajusta el tamaño al contenido

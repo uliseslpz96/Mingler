@@ -16,13 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'Mingler',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          color: Colors.grey[700], // Color de la AppBar
-          toolbarHeight: 50, // Altura de la AppBar (más delgada)
+          color: Colors.grey[700],
+          toolbarHeight: 50,
           titleTextStyle: TextStyle(
-            fontSize: 24, // Tamaño del título
-            fontWeight: FontWeight.bold, // Título en negritas
-            color: Colors.white, // Color del título
-          ),
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       home: MainScreen(),
@@ -38,6 +35,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
+  final List<int> _navigationHistory = [0]; // Historial de navegación
 
   final List<Widget> _screens = [
     NewsScreen(),
@@ -48,80 +46,136 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+    if (index != _selectedIndex) {
+      setState(() {
+        _navigationHistory
+            .add(_selectedIndex); // Guarda la pantalla actual antes de cambiar
+        _selectedIndex = index;
+      });
+
       _pageController.animateToPage(
         index,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut, // Suaviza la animación
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
       );
-    });
+    }
+  }
+
+  Future<bool> _onWillPop() async {
+    if (_navigationHistory.isNotEmpty) {
+      setState(() {
+        _selectedIndex =
+            _navigationHistory.removeLast(); // Regresa a la pantalla anterior
+      });
+
+      _pageController.animateToPage(
+        _selectedIndex,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+
+      return false; // Evita que la app se cierre
+    }
+    // Si no hay historial, mostrar confirmación para salir
+    return await _showExitConfirmation();
+  }
+
+  Future<bool> _showExitConfirmation() async {
+    return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                "Estás saliendo de Mingler",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              content: Text("¿Desea salir de la aplicación?"),
+              actions: [
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pop(false), // Cancela el cierre
+                  child: Text("Cancelar"),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pop(true), // Confirma salir
+                  child: Text("Salir"),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Si el usuario cierra el diálogo sin elegir, no se sale
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Mingler'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.inbox, color: Colors.white70),
-            onPressed: () {
-              print('Botón de configuración presionado');
-            },
-          ),
-        ],
-      ),
-      body: PageView(
-        controller: _pageController,
-        children: _screens,
-        physics: NeverScrollableScrollPhysics(), // Desactiva el swipe manual
-      ),
-      bottomNavigationBar: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: 50,
-            decoration: BoxDecoration(color: Colors.grey[850]),
-            child: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              selectedFontSize: 0,
-              unselectedFontSize: 0,
-              iconSize: 25,
-              selectedItemColor: Colors.amber,
-              unselectedItemColor: Colors.grey[400],
-              items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.dynamic_feed_rounded), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-                BottomNavigationBarItem(icon: SizedBox.shrink(), label: ''),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.notifications), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-              ],
+    return WillPopScope(
+      onWillPop: _onWillPop, // Maneja el gesto de "volver"
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Mingler'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.inbox, color: Colors.white70),
+              onPressed: () {
+                print('Botón de configuración presionado');
+              },
             ),
-          ),
-          Positioned(
-            bottom: 5,
-            child: GestureDetector(
-              onTap: () => _onItemTapped(2),
-              child: Container(
-                width: 45,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.purple[500],
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Icon(Icons.add, color: Colors.white, size: 27),
+          ],
+        ),
+        body: PageView(
+          controller: _pageController,
+          children: _screens,
+          physics: NeverScrollableScrollPhysics(),
+        ),
+        bottomNavigationBar: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              height: 50,
+              decoration: BoxDecoration(color: Colors.grey[850]),
+              child: BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                type: BottomNavigationBarType.fixed,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                selectedFontSize: 0,
+                unselectedFontSize: 0,
+                iconSize: 25,
+                selectedItemColor: Colors.amber,
+                unselectedItemColor: Colors.grey[400],
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.dynamic_feed_rounded), label: ''),
+                  BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
+                  BottomNavigationBarItem(icon: SizedBox.shrink(), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.notifications), label: ''),
+                  BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+                ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 5,
+              child: GestureDetector(
+                onTap: () => _onItemTapped(2),
+                child: Container(
+                  width: 45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.purple[500],
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Icon(Icons.add, color: Colors.white, size: 27),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -44,14 +44,16 @@ class _NewsScreenState extends State<NewsScreen> {
 
     final Map<String, List<Map<String, dynamic>>> postsByLocation = {
       'Muy cerca': List.generate(20, (index) {
+        final containImage = Random().nextBool();
+
         return _createPost(
           id: index + 1, // ID consecutivo a partir de 1
           username: "@usuario${index + 1}", // Usuario único
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
           content: "Contenido del post ${index + 1}", // Contenido único
-          imageUrls: [
-            "https://picsum.photos/600/400?random=$index"
-          ], // Imagen única
+          imageUrls: containImage
+              ? ["https://picsum.photos/600/400?random=$index"]
+              : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
@@ -64,15 +66,18 @@ class _NewsScreenState extends State<NewsScreen> {
         );
       }),
       'Cerca de mí': List.generate(20, (index) {
+        final containImage = Random().nextBool();
         return _createPost(
           id: index + 20, // ID consecutivo a partir de 1
           username: "@usuario${index + 20}", // Usuario único
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
           content: "Contenido del post ${index + 20}", // Contenido único
-          imageUrls: [
-            "https://picsum.photos/600/400?random=$index",
-            "https://picsum.photos/601/401?random=$index"
-          ], // Imagen única
+          imageUrls: containImage
+              ? [
+                  "https://picsum.photos/600/400?random=$index",
+                  "https://picsum.photos/601/401?random=$index"
+                ]
+              : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
@@ -85,14 +90,15 @@ class _NewsScreenState extends State<NewsScreen> {
         );
       }),
       'Algo lejos': List.generate(20, (index) {
+        final containImage = Random().nextBool();
         return _createPost(
           id: index + 40, // ID consecutivo a partir de 1
           username: "@usuario${index + 40}", // Usuario único
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
           content: "Contenido del post ${index + 40}", // Contenido único
-          imageUrls: [
-            "https://picsum.photos/600/400?random=$index"
-          ], // Imagen única
+          imageUrls: containImage
+              ? ["https://picsum.photos/600/400?random=$index"]
+              : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
@@ -105,15 +111,18 @@ class _NewsScreenState extends State<NewsScreen> {
         );
       }),
       'Seguidos': List.generate(20, (index) {
+        final containImage = Random().nextBool();
         return _createPost(
           id: index + 60, // ID consecutivo a partir de 1
           username: "@usuario${index + 60}", // Usuario único
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
           content: "Contenido del post ${index + 60}", // Contenido único
-          imageUrls: [
-            "https://picsum.photos/600/400?random=$index",
-            "https://picsum.photos/601/401?random=$index"
-          ], // Imagen única
+          imageUrls: containImage
+              ? [
+                  "https://picsum.photos/600/400?random=$index",
+                  "https://picsum.photos/601/401?random=$index"
+                ]
+              : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
