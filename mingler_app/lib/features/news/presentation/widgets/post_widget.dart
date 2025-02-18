@@ -41,6 +41,8 @@ class _PostWidgetState extends State<PostWidget> {
   late bool _hasCommented;
   late bool _hasShared;
 
+  bool _isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -165,25 +167,65 @@ class _PostWidgetState extends State<PostWidget> {
 
           SizedBox(height: 8),
 
-          /// 🔹 Carrusel de imágenes (si tiene) con doble tap para dar like
+          // 🔹 Carrusel de imágenes (si tiene) con opción de expandir/contraer
           if (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
-            GestureDetector(
-              onDoubleTap: _handleLike, // Doble tap en la imagen para dar like
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: PageView(
-                    children: widget.imageUrls!
-                        .map((imageUrl) => Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ))
-                        .toList(),
+            Stack(
+              children: [
+                GestureDetector(
+                  onDoubleTap:
+                      _handleLike, // Doble tap en la imagen para dar like
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: PageView(
+                        children: widget.imageUrls!
+                            .map((imageUrl) => AnimatedContainer(
+                                  duration: Duration(
+                                      milliseconds:
+                                          300), // 🔥 Animación de transición
+                                  curve: Curves.easeInOut,
+                                  child: Image.network(
+                                    imageUrl,
+                                    fit: _isExpanded
+                                        ? BoxFit.contain
+                                        : BoxFit
+                                            .cover, // 🔥 Cambia entre expandido y contraído
+                                    width: double.infinity,
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+
+                // 🔹 Botón flotante en la esquina inferior derecha
+                Positioned(
+                  bottom: 8,
+                  right: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isExpanded =
+                            !_isExpanded; // Cambia el estado de la imagen
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        shape: BoxShape.circle,
+                      ),
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        _isExpanded ? Icons.fullscreen_exit : Icons.fullscreen,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
 
           SizedBox(height: 8),
@@ -236,21 +278,16 @@ class _PostWidgetState extends State<PostWidget> {
             horizontal: 10, vertical: 6), // Espaciado interno
         decoration: isActive
             ? BoxDecoration(
-                color: Colors.grey[350], // Fondo gris claro cuando está activo
+                color: Colors.grey[300], // Fondo gris claro cuando está activo
                 borderRadius: BorderRadius.circular(20), // Forma ovalada
                 border: Border.all(
-                  color: Colors.grey[350]!, // Borde de color gris muy claro
-                  width: 1, // Grosor del borde
-                ),
-              )
+                  color: Colors.grey[300]!,
+                  width: 1,
+                ))
             : BoxDecoration(
-                color: Colors.grey[50], // Sin fondo cuando no está activo
+                color: Colors.grey[100], // Sin fondo cuando no está activo
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.grey[350]!, // Borde de color gris muy claro
-                  width: 1, // Grosor del borde
-                ),
-              ),
+                border: Border.all(color: Colors.grey[300]!, width: 1)),
         child: Row(
           mainAxisSize: MainAxisSize.min, // Ajusta el tamaño al contenido
           children: [

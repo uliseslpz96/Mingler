@@ -255,6 +255,16 @@ class _NewsScreenState extends State<NewsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // 🔹 Botón de cerrar
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(Icons.close, color: Colors.grey[600]),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+
+                  // 🔹 Título con icono
                   // 🔹 Título con icono y botón de cerrar en la misma línea
                   Row(
                     mainAxisAlignment: MainAxisAlignment
@@ -333,7 +343,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
                   // 🔹 Botón de Confirmar con animación
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 250),
+                    duration: Duration(milliseconds: 300),
                     width: selectedCountry != null &&
                             selectedState != null &&
                             selectedMunicipality != null
