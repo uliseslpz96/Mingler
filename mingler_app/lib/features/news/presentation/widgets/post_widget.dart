@@ -42,6 +42,9 @@ class _PostWidgetState extends State<PostWidget> {
   late bool _hasShared;
 
   bool _isExpanded = false;
+  // 🔹 Agregar controlador para detectar la imagen actual
+  PageController _pageController = PageController();
+  int _currentPage = 0;
 
   @override
   void initState() {
@@ -167,7 +170,7 @@ class _PostWidgetState extends State<PostWidget> {
 
           SizedBox(height: 8),
 
-          // 🔹 Carrusel de imágenes (si tiene) con opción de expandir/contraer
+          // 🔹 Carrusel de imágenes (si tiene) con opción de expandir/contraer e indicador de imágenes
           if (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
             Stack(
               children: [
@@ -179,26 +182,48 @@ class _PostWidgetState extends State<PostWidget> {
                     child: AspectRatio(
                       aspectRatio: 1 / 1,
                       child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentPage =
+                                index; // 🔥 Actualiza la imagen actual
+                          });
+                        },
                         children: widget.imageUrls!
-                            .map((imageUrl) => AnimatedContainer(
-                                  duration: Duration(
-                                      milliseconds:
-                                          300), // 🔥 Animación de transición
-                                  curve: Curves.easeInOut,
-                                  child: Image.network(
-                                    imageUrl,
-                                    fit: _isExpanded
-                                        ? BoxFit.contain
-                                        : BoxFit
-                                            .cover, // 🔥 Cambia entre expandido y contraído
-                                    width: double.infinity,
-                                  ),
-                                ))
+                            .map(
+                              (imageUrl) => Image.network(
+                                imageUrl,
+                                fit:
+                                    _isExpanded ? BoxFit.contain : BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            )
                             .toList(),
                       ),
                     ),
                   ),
                 ),
+
+                // 🔹 Indicador de imágenes en la esquina inferior izquierda (🔥 Solo si hay más de 1 imagen)
+                if (widget.imageUrls!.length > 1)
+                  Positioned(
+                    bottom: 8,
+                    left: 8,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        "${_currentPage + 1}/${widget.imageUrls!.length}", // 🔥 Formato "1/5"
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
 
                 // 🔹 Botón flotante en la esquina inferior derecha
                 Positioned(
@@ -218,9 +243,9 @@ class _PostWidgetState extends State<PostWidget> {
                       ),
                       padding: EdgeInsets.all(8),
                       child: Icon(
-                        _isExpanded ? Icons.fullscreen_exit : Icons.fullscreen,
+                        _isExpanded ? Icons.fullscreen : Icons.fullscreen_exit,
                         color: Colors.white,
-                        size: 24,
+                        size: 22,
                       ),
                     ),
                   ),
