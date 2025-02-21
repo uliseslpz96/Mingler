@@ -40,16 +40,33 @@ class _NewsScreenState extends State<NewsScreen> {
     final delay =
         random.nextInt(2000); // Generar un número aleatorio entre 0 y 2000
 
+    final locations = [
+      "Guadalajara",
+      "Zapopan",
+      "Tonala",
+      "San Pedro Tlaquepaque",
+      "Tlajomulco de Zúñiga",
+      "El Salto",
+      "Juanacatlán",
+      "Ixtlahuacán de los Membrillos",
+      "Acatlán de Juárez",
+      "Zapotlanejo"
+    ];
+
     await Future.delayed(Duration(milliseconds: delay)); // Retraso aleatorio
 
     final Map<String, List<Map<String, dynamic>>> postsByLocation = {
       'Muy cerca': List.generate(20, (index) {
         final containImage = Random().nextBool();
-
+        final indexLocation = Random().nextInt(10);
         return _createPost(
           id: index + 1, // ID consecutivo a partir de 1
           username: "@usuario${index + 1}", // Usuario único
+          isFriend: Random().nextBool(),
+          isBirthday: Random().nextBool(),
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          location: locations[indexLocation],
+          isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 1}", // Contenido único
           imageUrls: containImage
               ? ["https://picsum.photos/600/400?random=$index"]
@@ -63,18 +80,24 @@ class _NewsScreenState extends State<NewsScreen> {
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
           shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
+          views: Random().nextInt(2000000),
         );
       }),
       'Cerca de mí': List.generate(20, (index) {
         final containImage = Random().nextBool();
+        final indexLocation = Random().nextInt(10);
         return _createPost(
           id: index + 20, // ID consecutivo a partir de 1
           username: "@usuario${index + 20}", // Usuario único
+          isFriend: Random().nextBool(),
+          isBirthday: Random().nextBool(),
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          location: locations[indexLocation],
+          isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 20}", // Contenido único
           imageUrls: containImage
               ? [
-                  "https://picsum.photos/600/400?random=$index",
+                  "https://picsum.photos/400/600?random=$index",
                   "https://picsum.photos/601/401?random=$index"
                 ]
               : [], // Imagen única
@@ -87,14 +110,20 @@ class _NewsScreenState extends State<NewsScreen> {
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
           shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
+          views: Random().nextInt(2000000),
         );
       }),
       'Algo lejos': List.generate(20, (index) {
         final containImage = Random().nextBool();
+        final indexLocation = Random().nextInt(10);
         return _createPost(
           id: index + 40, // ID consecutivo a partir de 1
           username: "@usuario${index + 40}", // Usuario único
+          isFriend: Random().nextBool(),
+          isBirthday: Random().nextBool(),
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          location: locations[indexLocation],
+          isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 40}", // Contenido único
           imageUrls: containImage
               ? ["https://picsum.photos/600/400?random=$index"]
@@ -108,14 +137,20 @@ class _NewsScreenState extends State<NewsScreen> {
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
           shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
+          views: Random().nextInt(2000000),
         );
       }),
       'Seguidos': List.generate(20, (index) {
         final containImage = Random().nextBool();
+        final indexLocation = Random().nextInt(10);
         return _createPost(
           id: index + 60, // ID consecutivo a partir de 1
           username: "@usuario${index + 60}", // Usuario único
+          isFriend: Random().nextBool(),
+          isBirthday: Random().nextBool(),
           timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          location: locations[indexLocation],
+          isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 60}", // Contenido único
           imageUrls: containImage
               ? [
@@ -132,6 +167,7 @@ class _NewsScreenState extends State<NewsScreen> {
           commented: Random().nextBool(), // Comentario aleatorio (true o false)
           shares: Random().nextInt(2000000), // Shares aleatorios entre 0 y 29
           shared: Random().nextBool(), // Share aleatorio (true o false)
+          views: Random().nextInt(2000000),
         );
       })
     };
@@ -168,7 +204,11 @@ class _NewsScreenState extends State<NewsScreen> {
   Map<String, dynamic> _createPost(
       {required int id,
       required String username,
+      required bool isFriend,
+      required bool isBirthday,
       required String timeAgo,
+      required String location,
+      required bool isExploring,
       required String content,
       required List<String> imageUrls,
       required String profileImageUrl,
@@ -177,11 +217,16 @@ class _NewsScreenState extends State<NewsScreen> {
       required int comments,
       required bool commented,
       required int shares,
-      required bool shared}) {
+      required bool shared,
+      required int views}) {
     return {
       "postId": id,
       "username": username,
+      "isFriend": isFriend,
+      "isBirthday": isBirthday,
       "timeAgo": timeAgo,
+      "location": location,
+      "isExploring": isExploring,
       "content": content,
       "imageUrls": imageUrls,
       "profileImageUrl": profileImageUrl,
@@ -191,6 +236,7 @@ class _NewsScreenState extends State<NewsScreen> {
       "hasCommented": commented,
       "shares": shares,
       "hasShared": shared,
+      "views": views
     };
   }
 
@@ -255,16 +301,6 @@ class _NewsScreenState extends State<NewsScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // 🔹 Botón de cerrar
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      icon: Icon(Icons.close, color: Colors.grey[600]),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-
-                  // 🔹 Título con icono
                   // 🔹 Título con icono y botón de cerrar en la misma línea
                   Row(
                     mainAxisAlignment: MainAxisAlignment
@@ -468,7 +504,11 @@ class _NewsScreenState extends State<NewsScreen> {
                     return PostWidget(
                       postId: post["postId"],
                       username: post["username"],
+                      isFriend: post["isFriend"],
+                      isBirthday: post["isBirthday"],
                       timeAgo: post["timeAgo"],
+                      location: post["location"],
+                      isExploring: post["isExploring"],
                       content: post["content"],
                       imageUrls: post["imageUrls"],
                       profileImageUrl: post["profileImageUrl"],
@@ -478,6 +518,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       initialHasLiked: post["hasLiked"],
                       initialHasCommented: post["hasCommented"],
                       initialHasShared: post["hasShared"],
+                      views: post["views"],
                     );
                   },
                 )

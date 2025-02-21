@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 class PostWidget extends StatefulWidget {
   final int postId;
   final String username;
+  final bool isFriend;
+  final bool isBirthday;
   final String timeAgo;
+  final String location;
+  final bool isExploring;
   final String content;
   final List<String>? imageUrls;
   final String profileImageUrl;
@@ -13,22 +17,28 @@ class PostWidget extends StatefulWidget {
   final bool initialHasLiked;
   final bool initialHasCommented;
   final bool initialHasShared;
+  final int views;
 
-  const PostWidget({
-    Key? key,
-    required this.postId,
-    required this.username,
-    required this.timeAgo,
-    required this.content,
-    this.imageUrls,
-    required this.profileImageUrl,
-    required this.initialLikes,
-    required this.initialComments,
-    required this.initialShares,
-    required this.initialHasLiked,
-    required this.initialHasCommented,
-    required this.initialHasShared,
-  }) : super(key: key);
+  const PostWidget(
+      {Key? key,
+      required this.postId,
+      required this.username,
+      required this.isFriend,
+      required this.isBirthday,
+      required this.timeAgo,
+      required this.location,
+      required this.isExploring,
+      required this.content,
+      this.imageUrls,
+      required this.profileImageUrl,
+      required this.initialLikes,
+      required this.initialComments,
+      required this.initialShares,
+      required this.initialHasLiked,
+      required this.initialHasCommented,
+      required this.initialHasShared,
+      required this.views})
+      : super(key: key);
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
@@ -93,200 +103,370 @@ class _PostWidgetState extends State<PostWidget> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
-            spreadRadius: 1,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// 🔹 Encabezado con foto de perfil y nombre
-          Row(
+  void _openImageFullScreen(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black87, // 🔥 Fondo oscuro para enfoque en la imagen
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent, // Fondo transparente
+          insetPadding: EdgeInsets.zero, // 🔥 Ocupa toda la pantalla
+          child: Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  widget.profileImageUrl,
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey[300],
-                    child: Icon(Icons.person, color: Colors.grey[700]),
+              // 🔹 Imagen en pantalla completa con PageView y zoom
+              SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                child: PageView.builder(
+                  controller: PageController(
+                      initialPage:
+                          _currentPage), // 🔥 Inicia en la imagen seleccionada
+                  itemCount: widget.imageUrls!.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage =
+                          index; // 🔥 Mantiene sincronización con el carrusel principal
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Center(
+                      // 🔥 Centrar la imagen para mejor vista
+                      child: InteractiveViewer(
+                        minScale: 1.0, // 🔹 Escala mínima (original)
+                        maxScale: 3.0, // 🔹 Se puede ampliar hasta 3x
+                        child: Image.network(
+                          widget.imageUrls![index],
+                          fit: BoxFit
+                              .contain, // 🔥 Ocupará el ancho o alto sin recortarse
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              // 🔹 Botón de cerrar en la esquina superior derecha 🔥
+              Positioned(
+                top: 3, // 🔥 Más pegado a la parte superior
+                right: 3, // 🔥 Pegado completamente a la derecha
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context), // 🔥 Cierra el diálogo
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      shape: BoxShape.circle,
+                    ),
+                    padding: EdgeInsets.all(
+                        12), // 🔥 Un poco más de padding para mejorar el área táctil
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // 🔹 Contenedor principal del post
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+          padding: EdgeInsets.all(9),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                spreadRadius: 1,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// 🔹 Encabezado con foto de perfil y nombre
+              Row(
                 children: [
-                  Text(
-                    widget.username,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.black87),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(
+                      widget.profileImageUrl,
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey[300],
+                        child: Icon(Icons.person, color: Colors.grey[700]),
+                      ),
+                    ),
                   ),
-                  Text(
-                    widget.timeAgo,
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            widget.username,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Colors.black87),
+                          ),
+                          SizedBox(width: 5),
+                          if (widget.isFriend)
+                            Icon(
+                              Icons.group_rounded,
+                              color: Colors.blueGrey,
+                              size: 16,
+                            ),
+                          if (widget.isBirthday) SizedBox(width: 5),
+                          // Icono de cumpleaños con fondo circular gris claro
+                          if (widget.isBirthday)
+                            Container(
+                              padding: EdgeInsets.all(
+                                  3), // Espaciado interno para hacer más grande el fondo
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200, // Fondo gris claro
+                                shape: BoxShape
+                                    .circle, // Hace que el fondo sea circular
+                              ),
+                              child: Icon(
+                                Icons.cake_rounded,
+                                color: Colors.pinkAccent.shade100,
+                                size: 16,
+                              ),
+                            ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            widget.timeAgo,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                          SizedBox(width: 5),
+                          Text("•",
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.grey)),
+                          SizedBox(width: 5),
+                          Text(
+                            widget.location,
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: widget.isExploring
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: widget.isExploring
+                                    ? Colors.orange
+                                    : Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 8),
+
+              /// 🔹 Contenido del post
+              GestureDetector(
+                onDoubleTap: _handleLike,
+                child: Text(
+                  widget.content,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: widget.imageUrls != null &&
+                              widget.imageUrls!.isNotEmpty
+                          ? 14
+                          : 20),
+                ),
+              ),
+
+              SizedBox(height: 8),
+
+              /// 🔹 Carrusel de imágenes
+              if (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () => _openImageFullScreen(context),
+                      onDoubleTap: _handleLike,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: PageView(
+                            controller: _pageController,
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentPage = index;
+                              });
+                            },
+                            children: widget.imageUrls!
+                                .map(
+                                  (imageUrl) => Image.network(
+                                    imageUrl,
+                                    fit: _isExpanded
+                                        ? BoxFit.contain
+                                        : BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // 🔹 Indicador de imágenes
+                    if (widget.imageUrls!.length > 1)
+                      Positioned(
+                        bottom: 8,
+                        left: 8,
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            "${_currentPage + 1}/${widget.imageUrls!.length}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+
+                    // 🔹 Botón para expandir/contraer
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isExpanded = !_isExpanded;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: EdgeInsets.all(8),
+                          child: Icon(
+                            _isExpanded
+                                ? Icons.fullscreen_exit
+                                : Icons.fullscreen,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+              SizedBox(height: 8),
+
+              /// 🔹 Botones de interacción + Indicador de vistas
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      _buildActionButton(
+                        _hasLiked ? Icons.favorite : Icons.favorite_border,
+                        formatNumber(_likes),
+                        _hasLiked,
+                        _handleLike,
+                        activeColor: Colors.red,
+                      ),
+                      SizedBox(width: 3),
+                      _buildActionButton(
+                        widget.initialHasCommented
+                            ? Icons.question_answer_rounded
+                            : Icons.question_answer_outlined,
+                        formatNumber(widget.initialComments),
+                        _hasCommented,
+                        _handleComment,
+                        activeColor: Colors.blue,
+                      ),
+                      SizedBox(width: 3),
+                      _buildActionButton(
+                        _hasShared ? Icons.share : Icons.share_outlined,
+                        formatNumber(_shares),
+                        _hasShared,
+                        _handleShare,
+                        activeColor: Colors.green,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 4, vertical: 2), // Espaciado interno
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200, // Fondo gris claro
+                      borderRadius:
+                          BorderRadius.circular(12), // Bordes redondeados
+                    ),
+                    child: Row(
+                      mainAxisSize:
+                          MainAxisSize.min, // Ajusta el tamaño al contenido
+                      children: [
+                        Icon(
+                          Icons.remove_red_eye, // Icono del ojo
+                          color: Colors.grey.shade600, // Color tenue
+                          size: 14,
+                        ),
+                        SizedBox(width: 2), // Espaciado entre icono y número
+                        Text(
+                          formatNumber(widget.views), // Número de vistas
+                          style: TextStyle(
+                              fontSize: 10, color: Colors.grey.shade900),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ],
           ),
+        ),
 
-          SizedBox(height: 8),
-
-          /// 🔹 Contenido del post (Con evento de doble tap para dar like)
-          GestureDetector(
-            onDoubleTap: _handleLike, // Doble tap en el texto para dar like
-            child: Text(
-              widget.content,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize:
-                      (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
-                          ? 14
-                          : 20),
+        // 🔹 Ícono flotante en la esquina superior derecha
+        if (widget.isExploring)
+          Positioned(
+            top: 8,
+            right: 12,
+            child: Icon(
+              Icons.explore_rounded, //mode_of_travel_rounded,
+              color: Colors.orange,
+              size: 24,
             ),
           ),
-
-          SizedBox(height: 8),
-
-          // 🔹 Carrusel de imágenes (si tiene) con opción de expandir/contraer e indicador de imágenes
-          if (widget.imageUrls != null && widget.imageUrls!.isNotEmpty)
-            Stack(
-              children: [
-                GestureDetector(
-                  onDoubleTap:
-                      _handleLike, // Doble tap en la imagen para dar like
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (index) {
-                          setState(() {
-                            _currentPage =
-                                index; // 🔥 Actualiza la imagen actual
-                          });
-                        },
-                        children: widget.imageUrls!
-                            .map(
-                              (imageUrl) => Image.network(
-                                imageUrl,
-                                fit:
-                                    _isExpanded ? BoxFit.contain : BoxFit.cover,
-                                width: double.infinity,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // 🔹 Indicador de imágenes en la esquina inferior izquierda (🔥 Solo si hay más de 1 imagen)
-                if (widget.imageUrls!.length > 1)
-                  Positioned(
-                    bottom: 8,
-                    left: 8,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        "${_currentPage + 1}/${widget.imageUrls!.length}", // 🔥 Formato "1/5"
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-
-                // 🔹 Botón flotante en la esquina inferior derecha
-                Positioned(
-                  bottom: 8,
-                  right: 8,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isExpanded =
-                            !_isExpanded; // Cambia el estado de la imagen
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        shape: BoxShape.circle,
-                      ),
-                      padding: EdgeInsets.all(8),
-                      child: Icon(
-                        _isExpanded ? Icons.fullscreen : Icons.fullscreen_exit,
-                        color: Colors.white,
-                        size: 22,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-          SizedBox(height: 8),
-
-          /// 🔹 Botones de interacción
-          Row(
-            children: [
-              _buildActionButton(
-                _hasLiked ? Icons.favorite : Icons.favorite_border,
-                formatNumber(_likes),
-                _hasLiked,
-                _handleLike,
-                activeColor: Colors.red,
-              ),
-              SizedBox(width: 10),
-              _buildActionButton(
-                widget.initialHasCommented
-                    ? Icons.question_answer_rounded
-                    : Icons.question_answer_outlined,
-                formatNumber(widget.initialComments),
-                _hasCommented,
-                _handleComment,
-                activeColor: Colors.blue,
-              ),
-              SizedBox(width: 10),
-              _buildActionButton(
-                _hasShared ? Icons.share : Icons.share_outlined,
-                formatNumber(_shares),
-                _hasShared,
-                _handleShare,
-                activeColor: Colors.green,
-              ),
-            ],
-          ),
-        ],
-      ),
+      ],
     );
   }
 
