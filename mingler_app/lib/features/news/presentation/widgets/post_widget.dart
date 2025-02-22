@@ -5,7 +5,7 @@ class PostWidget extends StatefulWidget {
   final String username;
   final bool isFriend;
   final bool isBirthday;
-  final String timeAgo;
+  final DateTime dateTime;
   final String location;
   final bool isExploring;
   final String content;
@@ -25,7 +25,7 @@ class PostWidget extends StatefulWidget {
       required this.username,
       required this.isFriend,
       required this.isBirthday,
-      required this.timeAgo,
+      required this.dateTime,
       required this.location,
       required this.isExploring,
       required this.content,
@@ -50,6 +50,7 @@ class _PostWidgetState extends State<PostWidget> {
   late bool _hasLiked;
   late bool _hasCommented;
   late bool _hasShared;
+  late String _timeAgo;
 
   bool _isExpanded = false;
   // 🔹 Agregar controlador para detectar la imagen actual
@@ -65,6 +66,35 @@ class _PostWidgetState extends State<PostWidget> {
     _hasCommented = widget.initialHasCommented;
     // _hasCommented = false;
     _hasShared = widget.initialHasShared;
+
+    _timeAgo = formatTimeAgo(widget.dateTime);
+  }
+
+  String formatTimeAgo(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays > 0) {
+      if (difference.inDays > 1) {
+        return "Hace ${difference.inDays} días";
+      }
+      return "Hace un día";
+    }
+    else if (difference.inHours > 0) {
+      if (difference.inHours > 1) {
+        return "Hace ${difference.inHours} horas";
+      }
+      return "Hace una hora";
+    }
+    else if (difference.inMinutes > 0) {
+      if (difference.inMinutes > 1) {
+        return "Hace ${difference.inMinutes} minutos";
+      }
+      return "Hace un minutos";
+    }
+    else {
+      return "Hace unos segundos";
+    }
   }
 
   void _handleLike() {
@@ -297,7 +327,7 @@ class _PostWidgetState extends State<PostWidget> {
                       Row(
                         children: [
                           Text(
-                            widget.timeAgo,
+                            _timeAgo,
                             style: TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                           SizedBox(width: 5),
@@ -477,13 +507,13 @@ class _PostWidgetState extends State<PostWidget> {
                         Icon(
                           Icons.remove_red_eye, // Icono del ojo
                           color: Colors.grey.shade600, // Color tenue
-                          size: 14,
+                          size: 16,
                         ),
                         SizedBox(width: 3), // Espaciado entre icono y número
                         Text(
                           formatNumber(widget.views), // Número de vistas
                           style: TextStyle(
-                              fontSize: 10, color: Colors.grey.shade900),
+                              fontSize: 11, color: Colors.grey.shade900),
                         ),
                       ],
                     ),

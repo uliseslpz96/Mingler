@@ -33,6 +33,21 @@ class _NewsScreenState extends State<NewsScreen> {
     _loadPosts(_selectedLocation); // Cargar posts iniciales
   }
 
+  DateTime generateRandomDate() {
+    DateTime endDate = DateTime.now();
+    DateTime startDate = endDate.subtract(Duration(days: 7));
+
+    // Calcula la diferencia en milisegundos entre las dos fechas
+    final range = endDate.difference(startDate).inMilliseconds;
+
+    // Genera un número aleatorio dentro de ese rango
+    final random = Random();
+    final randomDuration = Duration(milliseconds: random.nextInt(range));
+
+    // Retorna la fecha aleatoria sumando la duración aleatoria a la fecha de inicio
+    return startDate.add(randomDuration);
+  }
+
   // Simular una consulta a una API
   Future<List<Map<String, dynamic>>> _fetchPosts(String location) async {
     print("Se está consultando la información...");
@@ -64,7 +79,7 @@ class _NewsScreenState extends State<NewsScreen> {
           username: "@usuario${index + 1}", // Usuario único
           isFriend: Random().nextBool(),
           isBirthday: Random().nextBool(),
-          timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          dateTime: generateRandomDate(), // Tiempo aleatorio
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 1}", // Contenido único
@@ -91,7 +106,7 @@ class _NewsScreenState extends State<NewsScreen> {
           username: "@usuario${index + 20}", // Usuario único
           isFriend: Random().nextBool(),
           isBirthday: Random().nextBool(),
-          timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          dateTime: generateRandomDate(), // Tiempo aleatorio
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 20}", // Contenido único
@@ -121,7 +136,7 @@ class _NewsScreenState extends State<NewsScreen> {
           username: "@usuario${index + 40}", // Usuario único
           isFriend: Random().nextBool(),
           isBirthday: Random().nextBool(),
-          timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          dateTime: generateRandomDate(), // Tiempo aleatorio
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 40}", // Contenido único
@@ -148,7 +163,7 @@ class _NewsScreenState extends State<NewsScreen> {
           username: "@usuario${index + 60}", // Usuario único
           isFriend: Random().nextBool(),
           isBirthday: Random().nextBool(),
-          timeAgo: "Hace ${Random().nextInt(120)} minutos", // Tiempo aleatorio
+          dateTime: generateRandomDate(), // Tiempo aleatorio
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 60}", // Contenido único
@@ -206,7 +221,7 @@ class _NewsScreenState extends State<NewsScreen> {
       required String username,
       required bool isFriend,
       required bool isBirthday,
-      required String timeAgo,
+      required DateTime dateTime,
       required String location,
       required bool isExploring,
       required String content,
@@ -224,7 +239,7 @@ class _NewsScreenState extends State<NewsScreen> {
       "username": username,
       "isFriend": isFriend,
       "isBirthday": isBirthday,
-      "timeAgo": timeAgo,
+      "dateTime": dateTime,
       "location": location,
       "isExploring": isExploring,
       "content": content,
@@ -506,7 +521,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       username: post["username"],
                       isFriend: post["isFriend"],
                       isBirthday: post["isBirthday"],
-                      timeAgo: post["timeAgo"],
+                      dateTime: post["dateTime"],
                       location: post["location"],
                       isExploring: post["isExploring"],
                       content: post["content"],
