@@ -86,6 +86,45 @@ class _PostWidgetState extends State<PostWidget> {
       _hasCommented = !_hasCommented;
     });
     print("Haz seleccionado comentarios");
+
+    // Abre el modal
+    _showCommentModal();
+  }
+
+  void _showCommentModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                "Comentarios",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Escribe tu comentario...",
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  // Aquí puedes agregar la lógica para guardar el comentario
+                  Navigator.pop(context); // Cierra el modal
+                },
+                child: Text("Enviar comentario"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   String formatNumber(int value) {
@@ -377,8 +416,8 @@ class _PostWidgetState extends State<PostWidget> {
                           padding: EdgeInsets.all(8),
                           child: Icon(
                             _isExpanded
-                                ? Icons.fullscreen_exit
-                                : Icons.fullscreen,
+                                ? Icons.fullscreen
+                                : Icons.fullscreen_exit,
                             color: Colors.white,
                             size: 22,
                           ),
@@ -403,7 +442,7 @@ class _PostWidgetState extends State<PostWidget> {
                         _handleLike,
                         activeColor: Colors.red,
                       ),
-                      SizedBox(width: 3),
+                      SizedBox(width: 5),
                       _buildActionButton(
                         widget.initialHasCommented
                             ? Icons.question_answer_rounded
@@ -413,7 +452,7 @@ class _PostWidgetState extends State<PostWidget> {
                         _handleComment,
                         activeColor: Colors.blue,
                       ),
-                      SizedBox(width: 3),
+                      SizedBox(width: 5),
                       _buildActionButton(
                         _hasShared ? Icons.share : Icons.share_outlined,
                         formatNumber(_shares),
@@ -440,7 +479,7 @@ class _PostWidgetState extends State<PostWidget> {
                           color: Colors.grey.shade600, // Color tenue
                           size: 14,
                         ),
-                        SizedBox(width: 2), // Espaciado entre icono y número
+                        SizedBox(width: 3), // Espaciado entre icono y número
                         Text(
                           formatNumber(widget.views), // Número de vistas
                           style: TextStyle(
@@ -483,16 +522,17 @@ class _PostWidgetState extends State<PostWidget> {
             horizontal: 10, vertical: 6), // Espaciado interno
         decoration: isActive
             ? BoxDecoration(
-                color: Colors.grey[300], // Fondo gris claro cuando está activo
+                color:
+                    Colors.grey.shade300, // Fondo gris claro cuando está activo
                 borderRadius: BorderRadius.circular(20), // Forma ovalada
                 border: Border.all(
-                  color: Colors.grey[300]!,
+                  color: Colors.grey.shade300,
                   width: 1,
                 ))
             : BoxDecoration(
-                color: Colors.grey[100], // Sin fondo cuando no está activo
+                color: Colors.grey.shade100, // Sin fondo cuando no está activo
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.grey[300]!, width: 1)),
+                border: Border.all(color: Colors.grey.shade300, width: 1)),
         child: Row(
           mainAxisSize: MainAxisSize.min, // Ajusta el tamaño al contenido
           children: [
@@ -506,8 +546,8 @@ class _PostWidgetState extends State<PostWidget> {
                 icon,
                 key: ValueKey(
                     isActive), // Asegura que la animación ocurra solo en cambios
-                size: 22,
-                color: isActive ? activeColor : Colors.grey[600],
+                size: 20,
+                color: isActive ? activeColor : Colors.grey.shade600,
               ),
             ),
             SizedBox(width: 5),
@@ -516,8 +556,8 @@ class _PostWidgetState extends State<PostWidget> {
                   milliseconds: 300), // Duración de la animación del texto
               curve: Curves.easeInOut,
               style: TextStyle(
-                fontSize: 14,
-                color: isActive ? activeColor : Colors.grey[700],
+                fontSize: 12,
+                color: isActive ? activeColor : Colors.grey.shade700,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
               ),
               child: Text(count),
