@@ -79,20 +79,17 @@ class _PostWidgetState extends State<PostWidget> {
         return "Hace ${difference.inDays} días";
       }
       return "Hace un día";
-    }
-    else if (difference.inHours > 0) {
+    } else if (difference.inHours > 0) {
       if (difference.inHours > 1) {
         return "Hace ${difference.inHours} horas";
       }
       return "Hace una hora";
-    }
-    else if (difference.inMinutes > 0) {
+    } else if (difference.inMinutes > 0) {
       if (difference.inMinutes > 1) {
         return "Hace ${difference.inMinutes} minutos";
       }
-      return "Hace un minutos";
-    }
-    else {
+      return "Hace un minuto";
+    } else {
       return "Hace unos segundos";
     }
   }

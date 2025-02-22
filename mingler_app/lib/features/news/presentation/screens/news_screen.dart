@@ -48,6 +48,24 @@ class _NewsScreenState extends State<NewsScreen> {
     return startDate.add(randomDuration);
   }
 
+  List<String> generateRandomImageUrls() {
+    final random = Random();
+    final count = random.nextInt(15) + 1;
+    return List.generate(count, (index) {
+      // Genera una URL de imagen aleatoria usando picsum.photos
+      bool isVertical = random.nextBool();
+      int width = 600;
+      int height = 400;
+
+      if (isVertical) {
+        height = 600;
+        width = 400;
+      }
+
+      return "https://picsum.photos/${width}/${height}?random=${random.nextInt(1000)}";
+    });
+  }
+
   // Simular una consulta a una API
   Future<List<Map<String, dynamic>>> _fetchPosts(String location) async {
     print("Se está consultando la información...");
@@ -83,9 +101,8 @@ class _NewsScreenState extends State<NewsScreen> {
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 1}", // Contenido único
-          imageUrls: containImage
-              ? ["https://picsum.photos/600/400?random=$index"]
-              : [], // Imagen única
+          imageUrls:
+              containImage ? generateRandomImageUrls() : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
@@ -110,12 +127,8 @@ class _NewsScreenState extends State<NewsScreen> {
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 20}", // Contenido único
-          imageUrls: containImage
-              ? [
-                  "https://picsum.photos/400/600?random=$index",
-                  "https://picsum.photos/601/401?random=$index"
-                ]
-              : [], // Imagen única
+          imageUrls:
+              containImage ? generateRandomImageUrls() : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
@@ -140,9 +153,8 @@ class _NewsScreenState extends State<NewsScreen> {
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 40}", // Contenido único
-          imageUrls: containImage
-              ? ["https://picsum.photos/600/400?random=$index"]
-              : [], // Imagen única
+          imageUrls:
+              containImage ? generateRandomImageUrls() : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
@@ -167,12 +179,8 @@ class _NewsScreenState extends State<NewsScreen> {
           location: locations[indexLocation],
           isExploring: Random().nextInt(10) % 7 == 0 ? true : false,
           content: "Contenido del post ${index + 60}", // Contenido único
-          imageUrls: containImage
-              ? [
-                  "https://picsum.photos/600/400?random=$index",
-                  "https://picsum.photos/601/401?random=$index"
-                ]
-              : [], // Imagen única
+          imageUrls:
+              containImage ? generateRandomImageUrls() : [], // Imagen única
           profileImageUrl:
               "https://randomuser.me/api/portraits/men/${Random().nextInt(100)}.jpg", // Foto de perfil aleatoria
           likes: Random().nextInt(2000000), // Likes aleatorios entre 0 y 199
