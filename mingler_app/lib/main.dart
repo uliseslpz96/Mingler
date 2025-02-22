@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Mingler',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          color: Colors.grey[700],
+          color: Colors.deepPurpleAccent.shade400,
           toolbarHeight: 50,
           titleTextStyle: TextStyle(
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),

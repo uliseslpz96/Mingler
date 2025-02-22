@@ -243,23 +243,23 @@ class _NewsScreenState extends State<NewsScreen> {
       required bool shared,
       required int views}) {
     return {
-      "postId": id,
+      "postId":   id,
       "username": username,
       "isFriend": isFriend,
       "isBirthday": isBirthday,
       "dateTime": dateTime,
       "location": location,
       "isExploring": isExploring,
-      "content": content,
+      "content":  content,
       "imageUrls": imageUrls,
       "profileImageUrl": profileImageUrl,
-      "likes": likes,
+      "likes":    likes,
       "hasLiked": liked,
       "comments": comments,
       "hasCommented": commented,
-      "shares": shares,
+      "shares":   shares,
       "hasShared": shared,
-      "views": views
+      "views":    views
     };
   }
 
